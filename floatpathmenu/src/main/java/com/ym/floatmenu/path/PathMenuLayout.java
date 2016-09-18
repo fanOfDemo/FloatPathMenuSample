@@ -39,7 +39,7 @@ public class PathMenuLayout extends ViewGroup {
     private int centerX = 0;
     private int centerY = 0;
 
-    public void getCenterXY(int position) {
+    public void computeCenterXY(int position) {
         switch (position) {
             case PathMenu.LEFT_TOP://左上
                 centerX = getWidth() / 2 - mRadius;
@@ -181,7 +181,7 @@ public class PathMenuLayout extends ViewGroup {
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
 //        final int centerX = getWidth() / 2 - mRadius;
 //        final int centerY = getHeight() / 2;
-        getCenterXY(position);
+        computeCenterXY(position);
         //当子菜单要收缩时radius=0，在ViewGroup坐标中心
         final int radius = mExpanded ? mRadius : 0;
 
@@ -286,7 +286,7 @@ public class PathMenuLayout extends ViewGroup {
 //        final int centerX = getWidth() / 2 - mRadius;  //ViewGroup的中心X坐标
 //        final int centerY = getHeight() / 2;
 
-        getCenterXY(position);
+        computeCenterXY(position);
         final int radius = expanded ? 0 : mRadius;
 
         final int childCount = getChildCount();
@@ -354,7 +354,7 @@ public class PathMenuLayout extends ViewGroup {
 
         mFromDegrees = fromDegrees;
         mToDegrees = toDegrees;
-        getCenterXY(position);
+        computeCenterXY(position);
         requestLayout();
     }
 
@@ -368,7 +368,7 @@ public class PathMenuLayout extends ViewGroup {
 
         mFromDegrees = fromDegrees;
         mToDegrees = toDegrees;
-        getCenterXY(position);
+        computeCenterXY(position);
         requestLayout();
     }
 
