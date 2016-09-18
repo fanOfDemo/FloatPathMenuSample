@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:arc="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btnOpenFloat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="open float menu" />
+
+            <Button
+                android:id="@+id/btnCloseFloat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="close float menu" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <com.ym.floatmenu.path.PathMenu
+                android:id="@+id/path_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                arc:childSize="@dimen/menuChildSize"
+                arc:fromDegrees="@dimen/menuFromDegrees"
+                arc:toDegrees="@dimen/menuToDegrees" >
+            </com.ym.floatmenu.path.PathMenu>
+
+            <com.ym.floatmenu.path.PathMenu
+                android:id="@+id/path_menu2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                arc:childSize="@dimen/menuChildSize"
+                arc:fromDegrees="0"
+                arc:toDegrees="180" >
+            </com.ym.floatmenu.path.PathMenu>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <com.ym.floatmenu.path.PathMenu
+                android:id="@+id/path_menu3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                arc:childSize="@dimen/menuChildSize"
+                arc:fromDegrees="90"
+                arc:toDegrees="180" >
+            </com.ym.floatmenu.path.PathMenu>
+
+            <com.ym.floatmenu.path.PathMenu
+                android:id="@+id/path_menu4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                arc:childSize="@dimen/menuChildSize"
+                arc:fromDegrees="0"
+                arc:toDegrees="90" >
+            </com.ym.floatmenu.path.PathMenu>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <com.ym.floatmenu.path.PathMenu
+                android:id="@+id/path_menu5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                arc:childSize="@dimen/menuChildSize"
+                arc:fromDegrees="180"
+                arc:toDegrees="270" >
+            </com.ym.floatmenu.path.PathMenu>
+
+            <com.ym.floatmenu.path.PathMenu
+                android:id="@+id/path_menu6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                arc:childSize="@dimen/menuChildSize"
+                arc:fromDegrees="270"
+                arc:toDegrees="360" >
+            </com.ym.floatmenu.path.PathMenu>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <com.ym.floatmenu.path.PathMenu
+                android:id="@+id/path_menu7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                arc:childSize="@dimen/menuChildSize"
+                arc:fromDegrees="0"
+                arc:toDegrees="300" >
+            </com.ym.floatmenu.path.PathMenu>
+            
+              <com.ym.floatmenu.path.PathMenu
+                android:id="@+id/path_menu8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                arc:childSize="@dimen/menuChildSize"
+                arc:fromDegrees="0"
+                arc:toDegrees="360" >
+            </com.ym.floatmenu.path.PathMenu>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

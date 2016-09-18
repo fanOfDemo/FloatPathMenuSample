@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+             android:clipChildren="false"
+             android:clipToPadding="false"
+>
+
+
+    <com.ym.floatmenu.path.PathMenuLayout
+            xmlns:custom="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/item_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            custom:childSize="44dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            custom:fromDegrees="270.0"
+            custom:toDegrees="360.0"/>
+
+    <FrameLayout
+            android:id="@+id/control_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/composer_button">
+
+        <ImageView
+                android:id="@+id/control_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:duplicateParentState="true"
+                android:src="@drawable/composer_icn_plus"/>
+
+
+    </FrameLayout>
+
+</merge>
