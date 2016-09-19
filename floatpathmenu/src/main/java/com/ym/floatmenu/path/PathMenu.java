@@ -128,7 +128,6 @@ public class PathMenu extends FrameLayout implements OnTouchListener {
         mHintView = (ImageView) findViewById(R.id.control_hint);
         mWindowManager.addView(this, mWmParams);
         initPathMenu(this, ITEM_DRAWABLES);// 初始化子菜单
-
         controlLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

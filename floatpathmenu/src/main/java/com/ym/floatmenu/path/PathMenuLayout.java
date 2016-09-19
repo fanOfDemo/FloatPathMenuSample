@@ -34,7 +34,6 @@ public class PathMenuLayout extends ViewGroup {
     private int mRadius;// 中心菜单圆点到子菜单中心的距离
     private boolean mExpanded = false;
 
-
     private int position = PathMenu.LEFT_TOP;
     private int centerX = 0;
     private int centerY = 0;
@@ -42,36 +41,36 @@ public class PathMenuLayout extends ViewGroup {
     public void computeCenterXY(int position) {
         switch (position) {
             case PathMenu.LEFT_TOP://左上
-                centerX = getWidth() / 2 - mRadius;
-                centerY = getHeight() / 2 - mRadius;
+                centerX = getWidth() / 2 - getRadiusAndPadding();
+                centerY = getHeight() / 2 - getRadiusAndPadding();
                 break;
             case PathMenu.LEFT_CENTER://左中
-                centerX = getWidth() / 2 - mRadius;
+                centerX = getWidth() / 2 - getRadiusAndPadding();
                 centerY = getHeight() / 2;
                 break;
             case PathMenu.LEFT_BOTTOM://左下
-                centerX = getWidth() / 2 - mRadius;
-                centerY = getHeight() / 2 + mRadius;
+                centerX = getWidth() / 2 - getRadiusAndPadding();
+                centerY = getHeight() / 2 + getRadiusAndPadding();
                 break;
             case PathMenu.CENTER_TOP://上中
                 centerX = getWidth() / 2;
-                centerY = getHeight() / 2 - mRadius;
+                centerY = getHeight() / 2 - getRadiusAndPadding();
                 break;
             case PathMenu.CENTER_BOTTOM://下中
                 centerX = getWidth() / 2;
-                centerY = getHeight() / 2 + mRadius;
+                centerY = getHeight() / 2 + getRadiusAndPadding();
                 break;
             case PathMenu.RIGHT_TOP://右上
-                centerX = getWidth() / 2 + mRadius;
-                centerY = getHeight() / 2 - mRadius;
+                centerX = getWidth() / 2 + getRadiusAndPadding();
+                centerY = getHeight() / 2 - getRadiusAndPadding();
                 break;
             case PathMenu.RIGHT_CENTER://右中
-                centerX = getWidth() / 2 + mRadius;
+                centerX = getWidth() / 2 + getRadiusAndPadding();
                 centerY = getHeight() / 2;
                 break;
             case PathMenu.RIGHT_BOTTOM://右下
-                centerX = getWidth() / 2 + mRadius;
-                centerY = getHeight() / 2 + mRadius;
+                centerX = getWidth() / 2 + getRadiusAndPadding();
+                centerY = getHeight() / 2 + getRadiusAndPadding();
                 break;
 
             case PathMenu.CENTER:
@@ -81,6 +80,9 @@ public class PathMenuLayout extends ViewGroup {
         }
     }
 
+    private int getRadiusAndPadding() {
+        return mRadius + (mChildPadding * 2);
+    }
 
     public PathMenuLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -145,6 +147,7 @@ public class PathMenuLayout extends ViewGroup {
         return mRadius;
     }
 
+
     /**
      * 子菜单项大小
      */
@@ -187,7 +190,7 @@ public class PathMenuLayout extends ViewGroup {
 
         final int childCount = getChildCount();
 //        final float perDegrees =Math.abs (mToDegrees - mFromDegrees) / (childCount - 1);
-        final float perDegrees = Math.abs (mToDegrees - mFromDegrees) == 360 ? (Math.abs (mToDegrees - mFromDegrees)) / (childCount) : (Math.abs (mToDegrees - mFromDegrees)) / (childCount - 1);
+        final float perDegrees = Math.abs(mToDegrees - mFromDegrees) == 360 ? (Math.abs(mToDegrees - mFromDegrees)) / (childCount) : (Math.abs(mToDegrees - mFromDegrees)) / (childCount - 1);
 
 
         float degrees = mFromDegrees;
