@@ -87,8 +87,6 @@ public class PathMenu extends FrameLayout implements OnTouchListener {
         LayoutInflater li = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         li.inflate(R.layout.float_menu, this);
-        setClipToPadding(false);
-        setClipToPadding(false);
         mWindowManager = (WindowManager) context
                 .getSystemService(Context.WINDOW_SERVICE);// 获取系统的窗口服务
         DisplayMetrics dm = new DisplayMetrics();
