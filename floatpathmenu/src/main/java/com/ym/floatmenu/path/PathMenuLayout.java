@@ -25,7 +25,6 @@ import android.view.animation.RotateAnimation;
 public class PathMenuLayout extends ViewGroup {
     private int mChildSize; // 子菜单项大小相同
     private int mChildPadding = 5;
-    private int mLayoutPadding = 10;
     public static final float DEFAULT_FROM_DEGREES = 270.0f;
     public static final float DEFAULT_TO_DEGREES = 360.0f;
     private float mFromDegrees = DEFAULT_FROM_DEGREES;
@@ -160,8 +159,9 @@ public class PathMenuLayout extends ViewGroup {
                 mChildSize, mChildPadding, MIN_RADIUS);
         Log.i("layout", "radius:" + radius);
 
+        int layoutPadding = 10;
         int size = radius * 2 + mChildSize + mChildPadding
-                + mLayoutPadding * 2;
+                + layoutPadding * 2;
         Log.i("layout", "size:" + size);
 
         setMeasuredDimension(size, size);
