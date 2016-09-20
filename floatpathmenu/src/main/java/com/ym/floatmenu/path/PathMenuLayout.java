@@ -85,7 +85,7 @@ public class PathMenuLayout extends ViewGroup {
         }
     }
 
-    private int getRadiusAndPadding() {
+    private  int getRadiusAndPadding() {
         return mRadius + (mChildPadding * 2);
     }
 
@@ -170,7 +170,7 @@ public class PathMenuLayout extends ViewGroup {
                 + layoutPadding * 2;
 //        Log.i("layout", "size:" + size);
 
-        setMeasuredDimension(size, size);
+        setMeasuredDimension(size, size*2);
 
         final int count = getChildCount();
         for (int i = 0; i < count; i++) {

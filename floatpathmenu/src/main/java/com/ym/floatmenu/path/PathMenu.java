@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -23,12 +24,14 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.Serializable;
+
 /**
  * 自定义菜单
  *
  * @author 何凌波
  */
-public class PathMenu extends FrameLayout implements OnTouchListener {
+public class PathMenu extends FrameLayout implements OnTouchListener ,Serializable{
     FrameLayout controlLayout;
     private PathMenuLayout mPathMenuLayout;
     private ImageView mHintView;// 中心按钮显示图片
@@ -123,12 +126,15 @@ public class PathMenu extends FrameLayout implements OnTouchListener {
 
         setBackgroundColor(mContext.getColor(android.R.color.holo_red_light));
         mPathMenuLayout = (PathMenuLayout) findViewById(R.id.item_layout);
+        mPathMenuLayout.setVisibility(GONE);
         controlLayout = (FrameLayout) findViewById(R.id.control_layout);
         controlLayout.setClickable(true);
         controlLayout.setOnTouchListener(this);
 
         mHintView = (ImageView) findViewById(R.id.control_hint);
         mWindowManager.addView(this, mWmParams);
+
+
         initPathMenu(this, ITEM_DRAWABLES);// 初始化子菜单
         controlLayout.setOnClickListener(new OnClickListener() {
             @Override
@@ -153,6 +159,13 @@ public class PathMenu extends FrameLayout implements OnTouchListener {
 
                     }
                 }
+            }
+        });
+        controlLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                controlLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                mPathMenuLayout.setChildSize(controlLayout.getMeasuredWidth());
             }
         });
     }
