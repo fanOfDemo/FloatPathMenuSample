@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -24,14 +23,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.Serializable;
-
 /**
  * 自定义菜单
  *
  * @author 何凌波
  */
-public class PathMenu extends FrameLayout implements OnTouchListener ,Serializable{
+public class PathMenu extends FrameLayout implements OnTouchListener {
     FrameLayout controlLayout;
     private PathMenuLayout mPathMenuLayout;
     private ImageView mHintView;// 中心按钮显示图片
@@ -90,13 +87,14 @@ public class PathMenu extends FrameLayout implements OnTouchListener ,Serializab
         LayoutInflater li = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         li.inflate(R.layout.float_menu, this);
+        setClipToPadding(false);
+        setClipToPadding(false);
         mWindowManager = (WindowManager) context
                 .getSystemService(Context.WINDOW_SERVICE);// 获取系统的窗口服务
         DisplayMetrics dm = new DisplayMetrics();
         mWindowManager.getDefaultDisplay().getMetrics(dm);
         mScreenWidth = dm.widthPixels;// 根据当前屏幕信息拿到屏幕的宽高
-        mScreenHeight = dm.heightPixels;
-//                - getStatusBarHeight();
+        mScreenHeight = dm.heightPixels - getStatusBarHeight();
 
         this.mWmParams = new WindowManager.LayoutParams();// 获取窗口参数
 
@@ -105,13 +103,11 @@ public class PathMenu extends FrameLayout implements OnTouchListener ,Serializab
         } else {
             mWmParams.type = WindowManager.LayoutParams.TYPE_PHONE;// API19以上侧只需指定为TYPE_PHONE即可
         }
-
-
         mWmParams.format = PixelFormat.RGBA_8888;// 当前窗口的像素格式为RGBA_8888,即为最高质量
 
         // NOT_FOCUSABLE可以是悬浮控件可以响应事件，LAYOUT_IN_SCREEN可以指定悬浮球指定在屏幕内，部分虚拟按键的手机，虚拟按键隐藏时，虚拟按键的位置则属于屏幕内，此时悬浮球会出现在原虚拟按键的位置
-        mWmParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-//                | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
+        mWmParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
         // 默认指定位置在屏幕的左上方，可以根据需要自己修改
         mWmParams.gravity = Gravity.LEFT | Gravity.TOP;
         position = 1;
@@ -124,48 +120,23 @@ public class PathMenu extends FrameLayout implements OnTouchListener ,Serializab
         mWmParams.width = LayoutParams.WRAP_CONTENT;
         mWmParams.height = LayoutParams.WRAP_CONTENT;
 
-        setBackgroundColor(mContext.getColor(android.R.color.holo_red_light));
         mPathMenuLayout = (PathMenuLayout) findViewById(R.id.item_layout);
-        mPathMenuLayout.setVisibility(GONE);
         controlLayout = (FrameLayout) findViewById(R.id.control_layout);
         controlLayout.setClickable(true);
         controlLayout.setOnTouchListener(this);
 
         mHintView = (ImageView) findViewById(R.id.control_hint);
         mWindowManager.addView(this, mWmParams);
-
-
         initPathMenu(this, ITEM_DRAWABLES);// 初始化子菜单
         controlLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!mDraging) {
-                    if (mPathMenuLayout.isExpanded()) {
-                        mPathMenuLayout.switchState(false, position);
-                        mHintView
-                                .startAnimation(createHintSwitchAnimation(true));
-                        mPathMenuLayout.setVisibility(GONE);
-                    } else {
-                        mHintView
-                                .startAnimation(createHintSwitchAnimation(false));
-                        mPathMenuLayout.setVisibility(VISIBLE);
-                        mPathMenuLayout.setPosition(position);
-                        postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                mPathMenuLayout.switchState(true);
-                            }
-                        }, 60);
-
-                    }
+                    mHintView
+                            .startAnimation(createHintSwitchAnimation(mPathMenuLayout
+                                    .isExpanded()));
+                    mPathMenuLayout.switchState(true, position);
                 }
-            }
-        });
-        controlLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                controlLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                mPathMenuLayout.setChildSize(controlLayout.getMeasuredWidth());
             }
         });
     }
@@ -274,7 +245,6 @@ public class PathMenu extends FrameLayout implements OnTouchListener ,Serializab
         }
 
         mPathMenuLayout.switchState(false, position);
-        mPathMenuLayout.setVisibility(GONE);
     }
 
     /**
@@ -309,6 +279,7 @@ public class PathMenu extends FrameLayout implements OnTouchListener ,Serializab
         animation.setDuration(100);
         animation.setInterpolator(new DecelerateInterpolator());
         animation.setFillAfter(true);
+
         return animation;
     }
 
@@ -333,15 +304,12 @@ public class PathMenu extends FrameLayout implements OnTouchListener ,Serializab
                 float mMoveStartY = event.getY();
                 if (Math.abs(mTouchStartX - mMoveStartX) > 3
                         && Math.abs(mTouchStartY - mMoveStartY) > 3) {
+//                    if (mPathMenuLayout.isExpanded()) {
+//                        mPathMenuLayout.switchState(false);
+//                    }
                     mDraging = true;
                     mWmParams.x = (int) (x - mTouchStartX);
                     mWmParams.y = (int) (y - mTouchStartY);
-                    if (mPathMenuLayout.isExpanded()) {
-                        mHintView
-                                .startAnimation(createHintSwitchAnimation(true));
-                        mPathMenuLayout.switchState(false, position);
-                        mPathMenuLayout.setVisibility(GONE);
-                    }
                     mWindowManager.updateViewLayout(this, mWmParams);
                     return false;
                 }
@@ -349,68 +317,58 @@ public class PathMenu extends FrameLayout implements OnTouchListener ,Serializab
 
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                refreshMenuXY();
+                int wmX = mWmParams.x;
+                int wmY = mWmParams.y;
+                if (wmX <= mScreenWidth / 3) //左边  竖区域
+                {
+                    mWmParams.x = 0;
+                    if (wmY <= mScreenHeight / 3) {
+                        position = LEFT_TOP;//左上
+                        mWmParams.y = 0;
+                    } else if (wmY > mScreenHeight / 3
+                            && wmY < mScreenHeight * 2 / 3) {
+                        position = LEFT_CENTER;//左中
+                        mWmParams.y = mScreenHeight / 2;
+                    } else if (wmY >= mScreenHeight * 2 / 3 && wmY < mScreenHeight) {
+                        position = LEFT_BOTTOM;//左下
+                        mWmParams.y = mScreenHeight;
+                    }
+                } else if (wmX >= mScreenWidth / 3 && wmX <= mScreenWidth * 2 / 3)//中间 竖区域
+                {
+                    mWmParams.x = mScreenWidth / 2;
+                    if (wmY <= mScreenHeight / 3) {
+                        position = CENTER_TOP;//中上
+                        mWmParams.y = 0;
+                    } else if (wmY > mScreenHeight / 3
+                            && wmY < mScreenHeight * 2 / 3) {
+                        position = CENTER;//中
+                        mWmParams.y = mScreenHeight / 2;
+                    } else if (wmY >= mScreenHeight * 2 / 3) {
+                        position = CENTER_BOTTOM;//中下
+                        mWmParams.y = mScreenHeight;
+                    }
+                } else if (wmX >= mScreenWidth * 2 / 3 && wmX < mScreenWidth)//右边竖区域
+                {
+                    mWmParams.x = mScreenWidth;
+                    if (wmY <= mScreenHeight / 3) {
+                        position = RIGHT_TOP;//上右
+                        mWmParams.y = 0;
+                    } else if (wmY > mScreenHeight / 3
+                            && wmY < mScreenHeight * 2 / 3) {
+                        position = RIGHT_CENTER;//中右
+                        mWmParams.y = mScreenHeight / 2;
+
+                    } else if (wmY >= mScreenHeight * 2 / 3 && wmY < mScreenHeight) {
+                        position = RIGHT_BOTTOM;//下右
+                        mWmParams.y = mScreenHeight;
+                    }
+                }
+                refreshPathMenu(position);
+                mWindowManager.updateViewLayout(this, mWmParams);
+                mTouchStartX = mTouchStartY = 0;
                 break;
         }
         return false;
-    }
-
-    private void refreshMenuXY() {
-        int wmX = mWmParams.x;
-        int wmY = mWmParams.y;
-
-//        int halfLayoutW = mPathMenuLayout.getMeasuredWidth() / 2;
-//        int halfLayoutH = mPathMenuLayout.getMeasuredHeight() / 2;
-
-        int halfLayoutW = 0;
-        int halfLayoutH = 0;
-
-        if (wmX < (mScreenWidth / 3)) //左边  竖区域
-        {
-            mWmParams.x = 0;
-            if (wmY < mScreenHeight / 3) {
-                position = LEFT_TOP;//左上
-                mWmParams.y = 0;
-            } else if (wmY >= mScreenHeight / 3
-                    && wmY <= mScreenHeight * 2 / 3) {
-                position = LEFT_CENTER;//左中
-                mWmParams.y = mScreenHeight / 2-halfLayoutH;
-            } else if (wmY > mScreenHeight * 2 / 3 && wmY <= mScreenHeight) {
-                position = LEFT_BOTTOM;//左下
-                mWmParams.y = mScreenHeight;
-            }
-        } else if (wmX >= mScreenWidth / 3 && wmX <= mScreenWidth * 2 / 3)//中间 竖区域
-        {
-            mWmParams.x = mScreenWidth / 2 - halfLayoutW;
-            if (wmY < mScreenHeight / 3) {
-                position = CENTER_TOP;//中上
-                mWmParams.y = 0;
-            } else if (wmY >= mScreenHeight / 3
-                    && wmY <= mScreenHeight * 2 / 3) {
-                position = CENTER;//中
-                mWmParams.y = mScreenHeight-halfLayoutH;
-            } else if (wmY > mScreenHeight * 2 / 3) {
-                position = CENTER_BOTTOM;//中下
-                mWmParams.y = mScreenHeight;
-            }
-        } else if (wmX > mScreenWidth * 2 / 3 && wmX <= mScreenWidth)//右边竖区域
-        {
-            mWmParams.x = mScreenWidth;
-            if (wmY < mScreenHeight / 3) {
-                position = RIGHT_TOP;//上右
-                mWmParams.y = 0;
-            } else if (wmY >= mScreenHeight / 3
-                    && wmY <= mScreenHeight * 2 / 3) {
-                position = RIGHT_CENTER;//中右
-                mWmParams.y = mScreenHeight/2 - halfLayoutH;
-            } else if (wmY > mScreenHeight * 2 / 3 && wmY <= mScreenHeight) {
-                position = RIGHT_BOTTOM;//下右
-                mWmParams.y = mScreenHeight;
-            }
-        }
-        refreshPathMenu(position);
-        mWindowManager.updateViewLayout(this, mWmParams);
-        mTouchStartX = mTouchStartY = 0;
     }
 
     /**

@@ -33,12 +33,6 @@ public class PathMenuLayout extends ViewGroup {
     private int mRadius;// 中心菜单圆点到子菜单中心的距离
     private boolean mExpanded = false;
 
-    public void setPosition(int position) {
-        this.position = position;
-        computeCenterXY(position);
-        invalidate();
-    }
-
     private int position = PathMenu.LEFT_TOP;
     private int centerX = 0;
     private int centerY = 0;
@@ -85,7 +79,7 @@ public class PathMenuLayout extends ViewGroup {
         }
     }
 
-    private  int getRadiusAndPadding() {
+    private int getRadiusAndPadding() {
         return mRadius + (mChildPadding * 2);
     }
 
@@ -168,9 +162,9 @@ public class PathMenuLayout extends ViewGroup {
         int layoutPadding = 10;
         int size = radius * 2 + mChildSize + mChildPadding
                 + layoutPadding * 2;
-//        Log.i("layout", "size:" + size);
+        Log.i("layout", "size:" + size);
 
-        setMeasuredDimension(size, size*2);
+        setMeasuredDimension(size, size);
 
         final int count = getChildCount();
         for (int i = 0; i < count; i++) {
@@ -182,7 +176,6 @@ public class PathMenuLayout extends ViewGroup {
                                     MeasureSpec.EXACTLY));
         }
     }
-
 
     /**
      * 子菜单项位置
@@ -344,6 +337,7 @@ public class PathMenuLayout extends ViewGroup {
                 }
             }
         });
+
         child.setAnimation(animation);
     }
 
